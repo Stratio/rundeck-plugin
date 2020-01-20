@@ -102,7 +102,7 @@ public class RundeckNotifier extends Notifier implements SimpleBuildStep {
     }
 
     @DataBoundConstructor
-    public RundeckNotifier(String rundeckInstance, String jobId, String options, String nodeFilters, String tags,
+    public RundeckNotifier(String rundeckInstance, String jobId, String options, String nodeFilters, String tag,
                            Boolean shouldWaitForRundeckJob, Boolean shouldFailTheBuild, Boolean notifyOnAllStatus,
                            Boolean includeRundeckLogs, Boolean tailLog,
                            String jobUser, String jobPassword, String jobToken) {
@@ -110,8 +110,8 @@ public class RundeckNotifier extends Notifier implements SimpleBuildStep {
         this.jobId = jobId;
         this.options = options;
         this.nodeFilters = nodeFilters;
-        this.tags = extracttags(tags,",");
-        this.tag = null;
+        this.tags = extracttags(null,",");
+        this.tag = tag;
         this.shouldWaitForRundeckJob = shouldWaitForRundeckJob;
         this.shouldFailTheBuild = shouldFailTheBuild;
         this.notifyOnAllStatus = notifyOnAllStatus;
