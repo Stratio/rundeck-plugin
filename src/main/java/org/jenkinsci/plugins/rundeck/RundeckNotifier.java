@@ -89,10 +89,10 @@ public class RundeckNotifier extends Notifier implements SimpleBuildStep {
     /** rundeck user during job perform */
     private String performUser;
 
-    RundeckNotifier(String rundeckInstance, String jobId, String options, String nodeFilters, String tags,
+    RundeckNotifier(String rundeckInstance, String jobId, String options, String nodeFilters, String tag,
                     Boolean shouldWaitForRundeckJob, Boolean shouldFailTheBuild, Boolean includeRundeckLogs, Boolean tailLog,
                     String jobUser, String jobPassword, String jobToken) {
-        this(rundeckInstance, jobId, options, nodeFilters, tags, shouldWaitForRundeckJob, shouldFailTheBuild, false, includeRundeckLogs, tailLog, jobUser, jobPassword, jobToken);
+        this(rundeckInstance, jobId, options, nodeFilters, tag, shouldWaitForRundeckJob, shouldFailTheBuild, false, includeRundeckLogs, tailLog, jobUser, jobPassword, jobToken);
     }
 
     RundeckNotifier(String rundeckInstance, String jobId, String options, String nodeFilters, String tag,
@@ -135,7 +135,10 @@ public class RundeckNotifier extends Notifier implements SimpleBuildStep {
 
     @Override
     public void perform(@Nonnull Run<?, ?> run, @Nonnull FilePath filePath, @Nonnull Launcher launcher, @Nonnull TaskListener listener) throws InterruptedException, IOException {
-        if (!Boolean.TRUE.equals(notifyOnAllStatus)) {
+
+        if (!Boolean.TRUE.equals(notifyOnAllStatus)
+                && (run.getResult()!=Result.SUCCESS && run.getResult()!=Result.FAILURE && run.getResult()!=Result.ABORTED)
+                && run.getResult() != null) {
             return;
         }
 
